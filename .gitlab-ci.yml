@@ -1,0 +1,23 @@
+stages:
+  - publish
+
+#
+# Build and publish docker images
+#
+job_publish_tagged_versions:
+  image: docker:latest
+  variables:
+    DOCKER_DRIVER: overlay2
+    IMAGE_NAME: $CI_REGISTRY_IMAGE:$CI_COMMIT_REF_SLUG
+  services:
+    - docker:dind
+  stage: publish
+  script:
+    - docker login -u "gitlab-ci-token" -p "$CI_JOB_TOKEN" $CI_REGISTRY
+    - docker build --pull --rm --build-arg NPM_TOKEN="${NPM_TOKEN}" --build-arg REACT_APP_ENV=production --build-arg NODE_ENV=production -t $IMAGE_NAME .
+    - docker push $IMAGE_NAME
+  only:
+    - tags
+    - master
+  tags:
+    - docker

@@ -1,0 +1,54 @@
+{
+  "name": "rating-results",
+  "version": "1.1.36",
+  "private": true,
+  "dependencies": {
+    "@emotion/react": "^11.4.1",
+    "@emotion/styled": "^11.3.0",
+    "@material-ui/core": "^4.11.4",
+    "@mui/material": "^5.0.3",
+    "@sangre-fp/connectors": "^2.0.0-3",
+    "@sangre-fp/css-framework": "^0.0.9",
+    "@sangre-fp/i18n": "^2.1.7",
+    "@sangre-fp/ui": "^2.0.23",
+    "@styled-icons/bootstrap": "^10.29.0",
+    "@styled-icons/fa-solid": "^10.26.0",
+    "@testing-library/jest-dom": "^5.11.4",
+    "@testing-library/react": "^11.1.0",
+    "@testing-library/user-event": "^12.1.10",
+    "babel-plugin-styled-components": "^1.12.0",
+    "d3": "6.7.0",
+    "lodash": "^4.17.15",
+    "react": "^16.12.0",
+    "react-dom": "^16.12.0",
+    "react-iframe": "^1.8.0",
+    "react-scripts": "^3.4.0",
+    "sass": "^1.34.0",
+    "swr": "^1.0.1",
+    "web-vitals": "^1.0.1"
+  },
+  "scripts": {
+    "start": "sh -ac '. ./.env.dev; PORT=3010 react-scripts start'",
+    "build": "sh -ac '. ./.env.deployment; react-scripts build'",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject"
+  },
+  "eslintConfig": {
+    "extends": [
+      "react-app",
+      "react-app/jest"
+    ]
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  }
+}
