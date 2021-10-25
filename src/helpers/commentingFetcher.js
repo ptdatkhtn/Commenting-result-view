@@ -1,7 +1,7 @@
 import  axios from 'axios'
 import { getSessionToken, getCsrfToken} from "@sangre-fp/connectors/session"
 
-const baseUrl = process.env.REACT_APP_VOTING_API_URL
+const baseUrl = process.env.REACT_APP_COMMENTING_API_URL
 async function httpRequest(baseUrl, method, path, payload = null) {
   return axios({
       method,
@@ -16,10 +16,10 @@ async function httpRequest(baseUrl, method, path, payload = null) {
   })
 }
 
-export const ratingApi = {
+export const commentingApi = {
     //get all votes from all phenomenon by radarId
-    getAllRatings: async (gid, radarId) => {
-        return await httpRequest(baseUrl, 'GET', `rating/${gid}/radar/${radarId}`)
+    getAllComments: async (gid, radarId) => {
+        return await httpRequest(baseUrl, 'GET', `commenting/${gid}/radar/${radarId}`)
 
     },
 

@@ -5,6 +5,11 @@ import iconFp from './watermark-fp-white.png'
 import { getRadar, getPhenomenaTypes } from '@sangre-fp/connectors/drupal-api';
 import radarDataApi from '@sangre-fp/connectors/radar-data-api';
 import {getPhenomena} from '../helpers/phenomenonFetcher'
+import {commentingApi} from '../helpers/commentingFetcher'
+import { getUserId } from '@sangre-fp/connectors/session'
+import {
+  getRadarPhenomena
+} from '@sangre-fp/connectors/phenomena-api'
 import {
   Container,
   PanelHeader,
@@ -56,45 +61,75 @@ const RadarComments = React.memo(function RadarComments ({dataSource, onClickHea
           /* eslint-disable */
           getPhenomenaTypes_drupal_api?.map((type) => {
               if (String(phenonmenon?.content?.type) === String(type?.id)) {
-                  phenonmenon['content-type-alias'] = type.alias
-                  phenonmenon['content-type-title'] = type.title
-                  /* eslint-disable */
-                  if (String(phenonmenon?.content?.type).includes('fp:doc-types')) {
-                      const nameCustomType = String(phenonmenon?.content?.type).split('/')[3]
-                      phenonmenon['color'] = String(type?.style?.color)
-                  } else {
-                      phenonmenon['color'] = 'none'
-                  }
-                  phenonmena?.push(phenonmenon)
+                phenonmenon['content-type-alias'] = type.alias
+                phenonmenon['content-type-title'] = type.title
+                /* eslint-disable */
+                if (String(phenonmenon?.content?.type).includes('fp:doc-types')) {
+                    const nameCustomType = String(phenonmenon?.content?.type).split('/')[3]
+                    phenonmenon['color'] = String(type?.style?.color)
+                } else {
+                    phenonmenon['color'] = 'none'
+                }
+                phenonmena?.push(phenonmenon)
               }
           })
       })
       
-    return phenonmena
+    return [phenonmena, group]
   }
-  const {data: getDataFromConnectors} = useSWR( radarId ? [ 'getDataFromConnectors', radarId ] : null, (url, node_id) => multiFetchersRadars(node_id) )
-  console.log('data', getDataFromConnectors)
-  // const { refreshInterval, mutate, cache, ...restConfig } = useSWRConfig()
   
 
+  
+  const {data: getDataFromConnectors} = useSWR( radarId ? [ 'getDataFromConnectors', radarId ] : null, (url, node_id) => multiFetchersRadars(node_id) )
+  const {data: getAllCommentsByRadarId} = useSWR( !!getDataFromConnectors?.length && getDataFromConnectors[1] ? ['getAllCommentsByRadarId', JSON.stringify(getDataFromConnectors[1]) , radarId] : null, async(url, group, radarId) => {
+    const res = await commentingApi.getAllComments( group, radarId)
+    return res.data
+  })
 
+  const phenResults = React.useMemo( () => {
+    if (getAllCommentsByRadarId?.length > 0) {
+      // added new property if the phen has comment
+      return !!getDataFromConnectors?.length && !!getDataFromConnectors[0].length > 0 && getDataFromConnectors[0].map(phe => {
+        getAllCommentsByRadarId?.length > 0 && getAllCommentsByRadarId.map(cmt => {
+          cmt['phenId'] = cmt['entity_uri'].split('/')[5]
+          if (String(phe.id) === String(cmt['phenId'])) {
+            cmt['section'] = cmt['entity_uri'].split('/')[6]
+            // check if the cmt is this current user or not
+            if (getUserId().toString() === cmt.uid.toString()) {
+              cmt['isAuthor'] = true
+            } else {
+              cmt['isAuthor'] = false
+            }
+
+            if(phe.cmt === undefined) phe['cmt'] = {}
+            phe.cmt[`${cmt['section']}`] = cmt
+          }
+        })
+        return phe
+      })
+    } else 
+        return []
+  }, [radarId, getAllCommentsByRadarId])
+
+  // const { refreshInterval, mutate, cache, ...restConfig } = useSWRConfig()
     
   const [state, setState] = useState(INIT_STATE)
   const { showSummary, showComment } = state
 
   const radarList = useMemo(() => {
-    const hasValues = (arr) => {
-      return Array.isArray(arr) && arr.length > 0
-    }
-    if (!showComment) return dataSource
-
-    return dataSource.filter(item => {
-      const { oppComments, thrComments, actComments } = item
-
-      return hasValues(oppComments) || hasValues(thrComments) || hasValues(actComments)
+    if (!showComment) return phenResults.sort((a,b) => {
+      return (a?.content['short_title'] ? a?.content['short_title'] : a.content.title)
+          .localeCompare((b?.content['short_title'] ? b?.content['short_title'] : b?.content.title))
     })
-  }, [showComment])
 
+    return !!phenResults?.length && phenResults.filter(item => item?.cmt)
+      .sort((a,b) => {
+        return (a?.content['short_title'] ? a?.content['short_title'] : a.content.title)
+          .localeCompare((b?.content['short_title'] ? b?.content['short_title'] : b?.content.title))
+      })
+  }, [showComment, phenResults])
+
+  console.log('radarList...', radarList)
   const handleChangeCommented = (event) => {
     const checked = event.target.checked
     setState(prevState => ({ ...prevState, showComment: +checked }))
@@ -117,7 +152,8 @@ const RadarComments = React.memo(function RadarComments ({dataSource, onClickHea
       return (
         <MessageContainer key={index}>
           <MessageInfo>
-            {author}<MessageInfoDate>{updatedAt}</MessageInfoDate>
+            {author}
+            <MessageInfoDate>{updatedAt}</MessageInfoDate>
             <MessageVotingIcon><span className={`material-icons ${voted ? 'voted' : 'not-voted'}`}>thumb_up</span></MessageVotingIcon>
           </MessageInfo>
           <MessageBody>{comment}</MessageBody>
@@ -137,7 +173,7 @@ const RadarComments = React.memo(function RadarComments ({dataSource, onClickHea
       <PhenomenonItem key={id}>
         <ItemHeader onClick={() => handleClickItemHeader(item)}>
           <ItemHeaderTitle>
-            {title}
+            {item?.content?.short_title || item?.content?.title}
           </ItemHeaderTitle>
           <PhenomenonMeta className='phenom-meta'>
             {metaSector && (
@@ -201,7 +237,7 @@ const RadarComments = React.memo(function RadarComments ({dataSource, onClickHea
         <MetaState>Type</MetaState>
       </PhenomenonListHeader>
       <PhenomenonList>
-        {radarList.map(renderPhenomenonItem)}
+        {radarList?.length > 0 && radarList.map(renderPhenomenonItem)}
       </PhenomenonList>
     </Container>
   )
