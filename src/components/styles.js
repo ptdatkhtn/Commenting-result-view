@@ -1,7 +1,9 @@
 import styled from 'styled-components'
+import * as tokens from "@sangre-fp/css-framework/tokens/fp-design-tokens"
 
 export const Container = styled.div`
   margin-bottom: 2rem;
+  font-family: ${tokens.FontFamilySansSerif}
 `
 
 export const PanelHeader = styled.div`
@@ -41,50 +43,18 @@ export const PhenomenonItem = styled.li`
 export const PhenomenonMeta = styled.div`
   display: flex;
   padding: .5rem 0 1rem;
+  font-weight: 400;
   .icon-issue {
     margin: 0 .5rem 0 0;
     width: 1.2rem;
     height: 1.2rem;
     display: flex;
   }
-  .icon-issue.rising:before {
-    background-color: #00ca8d;
-  }
-  .icon-issue.wildcard:before {
-    background-color: #e95757;
-  }
-  .icon-issue.cooling:before, .icon-issue.weakening:before {
-    background-color: #0098ff;
-  }
-  .icon-issue.weaksignal:before {
-    background-color: #a8a8a8;
-  }
-  .icon-issue.summary:before {
-    background-color: #a8a8a8;
-  }
-  .icon-issue.undefined:before {
-    background-color: transparent;
-    background-image: url(icon-phenomenon-undefined.svg);
-    background-size: 12px 12px;
-    background-position: center center;
-    background-repeat: no-repeat;
-  }
-  .icon-issue.watermark-fp:after{
-    content: '';
-    position: absolute;
-    left: 0;
-    top: 0;
-    background-image: url(watermark-fp-white.png);
-    background-size: 1.2rem 1.2rem;
-    background-position: center center;
-    background-repeat: no-repeat;
-    opacity: .8;
-  }
+  
   .icon-issue:before {
     display: inline-block;
     content: 'o';
     border-radius: 50%;
-    background-color: #aeeccb;
     line-height: 1;
     text-align: center;
     color: transparent;
@@ -151,9 +121,11 @@ export const MessageTopicHeader = styled.p`
   font-weight: 700;
 `
 export const MessageContainer = styled.div`
+  font-family: ${tokens.FontFamilySansSerif};
   padding: 0;
   margin: 0;
   border: none;
+  padding-left: 2rem;
 `
 export const MessageInfo = styled.div`
   display: flex;

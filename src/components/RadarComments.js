@@ -10,6 +10,9 @@ import { getUserId } from '@sangre-fp/connectors/session'
 import {
   getRadarPhenomena
 } from '@sangre-fp/connectors/phenomena-api'
+import styled from "styled-components/macro";
+import * as tokens from "@sangre-fp/css-framework/tokens/fp-design-tokens"
+
 import {
   Container,
   PanelHeader,
@@ -44,6 +47,7 @@ const RadarComments = React.memo(function RadarComments ({dataSource, onClickHea
       radarDataApi.getRadar(radarId),
       getRadar(radarId)
     ])
+
     const phenomenaIds = !!getRadar_radarDataApi?.data?.phenomena.length && getRadar_radarDataApi?.data?.phenomena.map(p => {
       return p.id
     })
@@ -74,11 +78,58 @@ const RadarComments = React.memo(function RadarComments ({dataSource, onClickHea
               }
           })
       })
-      
+
+      !!getRadar_radarDataApi?.data.phenomena.length && getRadar_radarDataApi?.data.phenomena
+        .map((phen) => {
+          phenonmena.map((phe => {
+            if(phen.id === phe.id) {
+              phe['sectorId'] = phen['sectorId']
+            }
+          }))
+          
+        })
+
+      !!phenonmena?.length && phenonmena.map(phenomenon => {
+        let iconClassName = ''
+        let backgroundColor = ''
+        if(String(phenomenon?.['color']) === 'none'){
+          if(phenomenon?.['content-type-alias'] === 'rising'){
+            iconClassName = 'rising'
+          } 
+          else if(phenomenon?.['content-type-alias'] === 'weaksignal'){
+            iconClassName = 'weaksignal'
+          }
+          else if (phenomenon?.['content-type-alias'] === 'summary'){
+            iconClassName = 'summary'
+          }
+          else if (phenomenon?.['content-type-alias'] === 'cooling'){
+            iconClassName = 'cooling'
+          }
+          else if (phenomenon?.['content-type-alias'] === 'wildcard'){
+            iconClassName = 'wildcard'
+          }
+          else {
+            iconClassName = 'undefined'
+          }
+        } else {
+          iconClassName = 'undefined'
+          backgroundColor = phenomenon?.['color']
+        }
+
+        phenomenon['iconClassName'] = iconClassName
+        phenomenon['backgroundColor'] = backgroundColor
+
+        getRadar_radarDataApi?.data.sectors
+          .map((sector) => {
+            if(sector.id === phenomenon.sectorId) {
+              phenomenon['sector_title'] = sector.title
+            }
+          })
+      })
+
+      console.log('phe1111111', phenonmena)
     return [phenonmena, group]
   }
-  
-
   
   const {data: getDataFromConnectors} = useSWR( radarId ? [ 'getDataFromConnectors', radarId ] : null, (url, node_id) => multiFetchersRadars(node_id) )
   const {data: getAllCommentsByRadarId} = useSWR( !!getDataFromConnectors?.length && getDataFromConnectors[1] ? ['getAllCommentsByRadarId', JSON.stringify(getDataFromConnectors[1]) , radarId] : null, async(url, group, radarId) => {
@@ -145,19 +196,29 @@ const RadarComments = React.memo(function RadarComments ({dataSource, onClickHea
   }
 
   const renderPhenomenonItem = (item) => {
+    
     const { id, title, content, oppComments, thrComments, actComments, type, metaState, metaSector } = item
 
     const renderSubComments = (data, index) => {
-      const { author, comment, updatedAt, voted } = data
+      const { user_name: author, comment, 
+        updated_timestamp: updatedAt, voted } 
+        = data[1]
+      
+      const convert2HumunDate = (new Date(+updatedAt * 1000)).toString().split(' ')
+
       return (
-        <MessageContainer key={index}>
-          <MessageInfo>
-            {author}
-            <MessageInfoDate>{updatedAt}</MessageInfoDate>
-            <MessageVotingIcon><span className={`material-icons ${voted ? 'voted' : 'not-voted'}`}>thumb_up</span></MessageVotingIcon>
-          </MessageInfo>
-          <MessageBody>{comment}</MessageBody>
-        </MessageContainer>
+        <>
+          <MessageTopicHeader>{data[0]}</MessageTopicHeader>
+          <MessageContainer key={index}>
+            
+            <MessageInfo>
+              {author}
+              <MessageInfoDate>{convert2HumunDate[2] + "." + new Date(+updatedAt * 1000).toLocaleDateString().split('/')[1] + "." + convert2HumunDate[3] + " " + convert2HumunDate[4]}</MessageInfoDate>
+              <MessageVotingIcon><span className={`material-icons ${voted ? 'voted' : 'not-voted'}`}>thumb_up</span></MessageVotingIcon>
+            </MessageInfo>
+            <MessageBody>{comment}</MessageBody>
+          </MessageContainer>
+        </>
       )
     }
 
@@ -175,23 +236,35 @@ const RadarComments = React.memo(function RadarComments ({dataSource, onClickHea
           <ItemHeaderTitle>
             {item?.content?.short_title || item?.content?.title}
           </ItemHeaderTitle>
+          
           <PhenomenonMeta className='phenom-meta'>
-            {metaSector && (
-              <MetaSector>{metaSector}</MetaSector>
+            {item['sector_title'] && (
+              <MetaSector>{item['sector_title']}</MetaSector>
             )}
-            <MetaState>{getIcon()}{metaState}</MetaState>
+            <MetaState>
+              <RatingItemHeader className= {`left icon-issue ${item.iconClassName}`}
+              // data-href={getPhenomenonUrl(radar?.id, phenomenon)}
+                backgroundColor={item.backgroundColor}>
+              </RatingItemHeader>
+              <TypePhen>
+                {item['content-type-title']}
+              </TypePhen>
+            </MetaState>
           </PhenomenonMeta>
           {!!showSummary && (
             <PhenomenonIngres className='phenom-meta'>
-              <p>{content}</p>
+              <div dangerouslySetInnerHTML={{ __html: item?.content.summary }} />
             </PhenomenonIngres>
           )}
         </ItemHeader>
-        {oppComments && oppComments.length > 0 && (
+        {item?.cmt && (
           <ItemContent>
             <MessageTopicContent>
-              <MessageTopicHeader>Opportunities</MessageTopicHeader>
-              {oppComments.map(renderSubComments)}
+              {
+                Object.entries(item?.cmt && item.cmt).length > 0 && Object.entries(item?.cmt && item.cmt)
+                  .map(renderSubComments)
+              }
+              {/* {item.cmt.map(renderSubComments)} */}
             </MessageTopicContent>
           </ItemContent>
         )}
@@ -244,3 +317,27 @@ const RadarComments = React.memo(function RadarComments ({dataSource, onClickHea
 })
 
 export default RadarComments
+
+export const RatingItemHeader = styled.div`
+    font-size: ${tokens.FontSize14};
+    min-height: 25px;
+    padding-left: 26px !important;
+    width: 99%;
+    word-wrap: break-word;
+    // width: 410px;
+    // white-space: nowrap;
+    // overflow: hidden;
+    // text-overflow: ellipsis;
+
+    &:before {
+      // width: 12px;
+      // height: 12px;
+      position: absolute;
+      left: 0;
+      top: 3px;
+      background:${props => props.backgroundColor} !important;
+    }
+`
+export const TypePhen = styled.p`
+
+`

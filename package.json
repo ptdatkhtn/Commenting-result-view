@@ -24,6 +24,7 @@
     "react-iframe": "^1.8.0",
     "react-scripts": "^3.4.0",
     "sass": "^1.34.0",
+    "styled-components": "^5.3.3",
     "swr": "^1.0.1",
     "web-vitals": "^1.0.1"
   },
