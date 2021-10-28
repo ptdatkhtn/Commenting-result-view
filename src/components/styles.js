@@ -131,6 +131,7 @@ export const MessageContainer = styled.div`
 export const MessageInfo = styled.div`
   display: flex;
   width: 100%;
+  height: 34px;
   align-items: center;
   font-weight: 700;
   font-size: 1.3rem;
@@ -169,7 +170,14 @@ export const MessageInfoDate = styled.span`
 `
 export const MessageBody = styled.p`
   color: #333;
-  padding-bottom: 1rem;
-  margin: .5rem 0 1rem 0;
+  // padding-bottom: 1rem;
+  margin: 0.1rem 0 1rem 0;
   font-size: 1.3rem;
+`
+
+export const EditButton = styled.img`
+  cursor: pointer;
+  :hover {
+    opacity: 0.8;
+  }
 `

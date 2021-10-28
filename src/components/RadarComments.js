@@ -12,6 +12,8 @@ import {
 } from '@sangre-fp/connectors/phenomena-api'
 import styled from "styled-components/macro";
 import * as tokens from "@sangre-fp/css-framework/tokens/fp-design-tokens"
+import edit2 from './edit2.svg'
+import {EditButton} from './styles'
 
 import {
   Container,
@@ -127,7 +129,6 @@ const RadarComments = React.memo(function RadarComments ({dataSource, onClickHea
           })
       })
 
-      console.log('phe1111111', phenonmena)
     return [phenonmena, group]
   }
   
@@ -141,6 +142,7 @@ const RadarComments = React.memo(function RadarComments ({dataSource, onClickHea
     if (getAllCommentsByRadarId?.length > 0) {
       // added new property if the phen has comment
       return !!getDataFromConnectors?.length && !!getDataFromConnectors[0].length > 0 && getDataFromConnectors[0].map(phe => {
+        
         getAllCommentsByRadarId?.length > 0 && getAllCommentsByRadarId.map(cmt => {
           cmt['phenId'] = cmt['entity_uri'].split('/')[5]
           if (String(phe.id) === String(cmt['phenId'])) {
@@ -152,8 +154,18 @@ const RadarComments = React.memo(function RadarComments ({dataSource, onClickHea
               cmt['isAuthor'] = false
             }
 
-            if(phe.cmt === undefined) phe['cmt'] = {}
-            phe.cmt[`${cmt['section']}`] = cmt
+            if(phe.cmt === undefined || phe.cmt === null) phe['cmt'] = {}
+            
+            if (phe.cmt[`${cmt['section']}`] === undefined
+                  || phe.cmt[`${cmt['section']}`] === null) {
+                    phe.cmt[`${cmt['section']}`] = []
+                    phe.cmt[`${cmt['section']}`].push(cmt)
+            }
+            else {
+              if (!phe.cmt[`${cmt['section']}`].some( ph_cmt => ph_cmt['comment_id'] === cmt['comment_id'])) {
+                phe.cmt[`${cmt['section']}`].push(cmt)
+              }
+            }
           }
         })
         return phe
@@ -180,7 +192,6 @@ const RadarComments = React.memo(function RadarComments ({dataSource, onClickHea
       })
   }, [showComment, phenResults])
 
-  console.log('radarList...', radarList)
   const handleChangeCommented = (event) => {
     const checked = event.target.checked
     setState(prevState => ({ ...prevState, showComment: +checked }))
@@ -195,40 +206,68 @@ const RadarComments = React.memo(function RadarComments ({dataSource, onClickHea
     onClickHeader && onClickHeader(data)
   }
 
+  
+
   const renderPhenomenonItem = (item) => {
     
-    const { id, thrComments, actComments, type,  } = item
+    const { id } = item
 
     const renderSubComments = (data, index) => {
       const { user_name: author, comment, 
         updated_timestamp: updatedAt, voted } 
         = data[1]
       
-      const convert2HumunDate = (new Date(+updatedAt * 1000)).toString().split(' ')
-
+      const onEditing = (data) => {
+        console.log('data...', data)
+        console.log('item...', item)
+      }
+      
       return (
         <>
           <MessageTopicHeader>{data[0]}</MessageTopicHeader>
           <MessageContainer key={index}>
             
-            <MessageInfo>
-              {author}
-              <MessageInfoDate>{convert2HumunDate[2] + "." + new Date(+updatedAt * 1000).toLocaleDateString().split('/')[1] + "." + convert2HumunDate[3] + " " + convert2HumunDate[4]}</MessageInfoDate>
-              <MessageVotingIcon><span className={`material-icons ${voted ? 'voted' : 'not-voted'}`}>thumb_up</span></MessageVotingIcon>
-            </MessageInfo>
-            <MessageBody>{comment}</MessageBody>
+            {
+              data && data[1].length > 0 && data[1].map ( cmt_data => {
+                const {updated_timestamp: updatedAt, user_name, isAuthor, comment_text} = cmt_data
+                console.log('cmt_data', cmt_data)
+                const convert2HumunDate = (new Date(+updatedAt * 1000)).toString().split(' ')
+                return (
+                  <>
+                    <MessageInfo>
+                      <div style={{display: 'flex', alignItems: 'center'}}>
+                        <div style={{width: 'fit-content', minWidth: '5rem', maxWidth: '60%'}}> {user_name}</div>
+                        <MessageInfoDate>{convert2HumunDate[2] + "." + new Date(+updatedAt * 1000).toLocaleDateString().split('/')[1] + "." + convert2HumunDate[3] + " " + convert2HumunDate[4]}</MessageInfoDate>
+                        <MessageVotingIcon><span className={`material-icons ${voted ? 'voted' : 'not-voted'}`}>thumb_up</span></MessageVotingIcon>
+                      </div>
+                      {
+                        isAuthor && (
+                          <div style={{marginLeft: 'auto', marginRight: '6rem'}} onClick={() => onEditing(data)}>
+                            <EditButton src={edit2}/>
+                          </div>
+                        )
+                      }
+                    </MessageInfo>
+                    {
+                      comment_text && <MessageBody>{comment_text}</MessageBody>
+                    }
+                  </>
+                )
+              })
+              
+            }
           </MessageContainer>
         </>
       )
     }
 
-    const getIcon = () => {
-      // eslint-disable-next-line jsx-a11y/alt-text
-      if (type === undefined) return <img className='icon-issue' src={iconUndefined} />
-      // if (type.includes('watermark-fp')) return <span className={`icon-issue ${type}`}><img src={iconFp}/></span>
+    // const getIcon = () => {
+    //   // eslint-disable-next-line jsx-a11y/alt-text
+    //   if (type === undefined) return <img className='icon-issue' src={iconUndefined} />
+    //   // if (type.includes('watermark-fp')) return <span className={`icon-issue ${type}`}><img src={iconFp}/></span>
 
-      return <span className={`icon-issue ${type}`} />
-    }
+    //   return <span className={`icon-issue ${type}`} />
+    // }
 
     return (
       <PhenomenonItem key={id}>
@@ -264,23 +303,6 @@ const RadarComments = React.memo(function RadarComments ({dataSource, onClickHea
                 Object.entries(item?.cmt && item.cmt).length > 0 && Object.entries(item?.cmt && item.cmt)
                   .map(renderSubComments)
               }
-              {/* {item.cmt.map(renderSubComments)} */}
-            </MessageTopicContent>
-          </ItemContent>
-        )}
-        {thrComments && thrComments.length > 0 && (
-          <ItemContent>
-            <MessageTopicContent>
-              <MessageTopicHeader>Threats</MessageTopicHeader>
-              {thrComments.map(renderSubComments)}
-            </MessageTopicContent>
-          </ItemContent>
-        )}
-        {actComments && actComments.length > 0 && (
-          <ItemContent>
-            <MessageTopicContent>
-              <MessageTopicHeader>Actions</MessageTopicHeader>
-              {actComments.map(renderSubComments)}
             </MessageTopicContent>
           </ItemContent>
         )}
