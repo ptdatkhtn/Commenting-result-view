@@ -197,7 +197,7 @@ const RadarComments = React.memo(function RadarComments ({dataSource, onClickHea
 
   const renderPhenomenonItem = (item) => {
     
-    const { id, title, content, oppComments, thrComments, actComments, type, metaState, metaSector } = item
+    const { id, thrComments, actComments, type,  } = item
 
     const renderSubComments = (data, index) => {
       const { user_name: author, comment, 
@@ -290,20 +290,25 @@ const RadarComments = React.memo(function RadarComments ({dataSource, onClickHea
 
   return (
     <Container>
-      <PanelHeader>
+      {/* <PanelHeader>
         <CommentLabel>Comments</CommentLabel>
         <div className="actions">
           <a className="btn btn-outline-secondary btn-sm" >
             <span className="af-custom-share"></span>Share
           </a>
         </div>
-      </PanelHeader>
+      </PanelHeader> */}
       <RadarFilter>
-        <input type="checkbox" id="commented" name="vehicommentedcle1" value="commented" onChange={handleChangeCommented} />
-        <label htmlFor="commented">Show only commented</label>
-
-        <input type="checkbox" id="summary" name="summary" value="summary" onChange={handleChangeSummary} />
-        <label htmlFor="summary">Show summaries</label>
+        <div className="custom-control custom-checkbox" style={{display: 'inline-block', marginRight: '3rem'}}>
+          <input type="checkbox" id="commented" name="vehicommentedcle1" value="commented" className="custom-control-input" onChange={handleChangeCommented} />
+          <label htmlFor="commented" className="custom-control-label" style={{fontWeight: 400, fontSize: '13px', paddingTop: '0.2rem', paddingLeft: '1.2rem'}}>Show only commented</label>
+        </div>
+        
+        <div className="custom-control custom-checkbox" style={{display: 'inline-block'}}>
+          <input type="checkbox" id="summary" name="summary" value="summary" onChange={handleChangeSummary} className="custom-control-input"  />
+          <label htmlFor="summary" className="custom-control-label" style={{fontWeight: 400, fontSize: '13px', paddingTop: '0.2rem', paddingLeft: '1.2rem'}}>Show summaries</label>
+        </div>
+       
       </RadarFilter>
       <PhenomenonListHeader>
         <MetaSector>Phenomenon</MetaSector>

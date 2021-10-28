@@ -18,6 +18,7 @@ export const CommentLabel = styled.h2`
 `
 
 export const RadarFilter = styled.div`
+  margin-bottom: 2rem;
 
 `
 
@@ -27,7 +28,7 @@ export const PhenomenonListHeader = styled.div`
   background-color: #dbdbdb;
   display: flex;
   font-style: italic;
-  padding: 1rem 0 1.5rem 1rem;
+  padding: 1rem 0 1.5rem 0;
 `
 
 export const PhenomenonList = styled.ul`
@@ -162,7 +163,8 @@ export const MessageVotingIcon = styled.div`
 `
 export const MessageInfoDate = styled.span`
   color: #666;
-  font-weight: 400;
+  font-size: 1.4rem;
+  font-weight: 450;
   margin-left: .5rem;
 `
 export const MessageBody = styled.p`

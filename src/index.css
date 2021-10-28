@@ -19,3 +19,15 @@ html {
     padding: 1.5rem;
   }
   
+  .custom-control {
+    padding-left: 1.786rem;
+  }
+  .custom-control-label:before {
+    width: 2rem;
+    height: 2rem;
+  }
+
+  .custom-control-label:after {
+    width: 2rem;
+    height: 2rem;
+  }
