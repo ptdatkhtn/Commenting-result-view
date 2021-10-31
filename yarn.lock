@@ -2065,7 +2065,7 @@
   dependencies:
     lodash "^4.17.15"
 
-"@sangre-fp/ui@^2.0.23":
+"@sangre-fp/ui@^2.0.26":
   version "2.0.28"
   resolved "https://npm.sangre.dev/@sangre-fp%2fui/-/ui-2.0.28.tgz#ccea095515a5762e11519f14732593b19257e702"
   integrity sha512-qdU8lfOPlENrTj1nYUy/s5eNtrjb9NUR4tP+ASpyxA8J4PZ1c2yqEdKdKSy/HLemZZNXuMtiNZsEKePoZks3IA==

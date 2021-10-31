@@ -23,6 +23,11 @@ export const commentingApi = {
 
     },
 
+    //add hidden phenomennon of radar
+    upsertComment: async (gid, radarId, pid, section, payload) => {
+        return await httpRequest(baseUrl, 'POST', `commenting/${gid}/radar/${radarId}/phenomenon/${pid}/${section}`, payload)
+    },
+
     //get rating by phenomenon id 
     getRatingByPhenomenonId: async (gid, radarId, pid) => {
         return await httpRequest(baseUrl, 'GET', `rating/${gid}/radar/${radarId}/phenomenon/${pid}/`)

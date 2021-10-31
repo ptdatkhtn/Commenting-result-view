@@ -10,7 +10,7 @@
     "@sangre-fp/connectors": "^2.0.0-3",
     "@sangre-fp/css-framework": "^0.0.9",
     "@sangre-fp/i18n": "^2.1.7",
-    "@sangre-fp/ui": "^2.0.23",
+    "@sangre-fp/ui": "^2.0.26",
     "@styled-icons/bootstrap": "^10.29.0",
     "@styled-icons/fa-solid": "^10.26.0",
     "@testing-library/jest-dom": "^5.11.4",
