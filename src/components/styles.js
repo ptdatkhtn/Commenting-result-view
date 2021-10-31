@@ -173,6 +173,7 @@ export const MessageBody = styled.p`
   // padding-bottom: 1rem;
   margin: 0.1rem 0 1rem 0;
   font-size: 1.3rem;
+  max-width: 70%;
 `
 
 export const EditButton = styled.img`
