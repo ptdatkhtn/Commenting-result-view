@@ -101,7 +101,6 @@ const DeleteConfirmationModal = ({
     return [phenonmena, group]
   }
   
-  console.log('12222', getUserId())
   const userId = getUserId()
 
   const radarIdEditing = data?.entity_uri.split('/')[3]
@@ -117,8 +116,7 @@ const DeleteConfirmationModal = ({
         //   // serialize: true
         // }
     )
-    
-    console.log('getDataFromConnectors9999', getDataFromConnectors)
+
   const {data: getAllCommentsByRadarId} 
     = useSWR( (!!getDataFromConnectors?.length && getDataFromConnectors[1] && userId) 
       ? ['getAllCommentsByRadarId', JSON.stringify(getDataFromConnectors[1]) , radarIdEditing, userId] : null, 
@@ -134,7 +132,7 @@ const DeleteConfirmationModal = ({
     //   // serialize: true
     // }
   )
-  console.log('getAllCommentsByRadarId9999999', getAllCommentsByRadarId)
+
   const { mutate } = useSWRConfig()
 
   const handleYesRemoveCmtBtn = async () => {
