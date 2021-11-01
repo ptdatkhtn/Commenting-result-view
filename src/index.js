@@ -27,7 +27,6 @@ const renderApp = (isSessionStarted, radarId) => {
 }
 
 startSession().then((isSessionStarted) => {
-    console.log('isSessionStarted', isSessionStarted)
     const appElements = document.getElementsByClassName('commenting-results-app')
 
     const defaultRadarId = (/node=\d+/.test(document.location.href) && document.location.href.replace(/^.*node=(\d+).*$/, '$1')) || null

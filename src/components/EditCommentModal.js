@@ -4,6 +4,8 @@ import { requestTranslation } from '@sangre-fp/i18n'
 import styled, { createGlobalStyle } from 'styled-components'
 import {commentingApi} from '../helpers/commentingFetcher'
 import { useSWRConfig } from 'swr'
+import DeleteConfirmationModal from './DeleteConfirmationModal'
+
 const GlobalStyle = createGlobalStyle`
   .ReactModal__Overlay--after-open {
     background-color: rgba(0,0,0,.77)!important;
@@ -40,6 +42,7 @@ const GlobalStyle = createGlobalStyle`
   }
 `
 
+const MAXCHARS = 1000
 const EditCommentModal = ({
   isOpenEditCommentingModal,
   isCloseEditCommentingModal,
@@ -53,14 +56,21 @@ const EditCommentModal = ({
   userId,
   functionFromRadatComment,
 }) => {
-  console.log('comment_id', comment_id)
-  console.log('isCmtIdIsEditing', data)
   const { mutate } = useSWRConfig()
   const isOpenModal = React.useMemo(() => (comment_id === isCmtIdIsEditing) , [isCmtIdIsEditing])
   const [valueInput, setValueInput] = React.useState(data?.comment_text)
+  const [remainingChars, setRemainingChars] = React.useState(MAXCHARS - (+data.comment_text.length))
 
+  const checRemainingCharsInput = (value) => {
+    var textAreaValue = +value.length;
+    var charactersLeft = MAXCHARS - textAreaValue;
+    return Number(charactersLeft)
+  }
+  
   const handleChangeInput = (e) => {
     const tempInputValue = e.target.value
+    const remainingChars = checRemainingCharsInput(tempInputValue)
+    setRemainingChars(() => remainingChars)
     setValueInput(() => tempInputValue)
   }
   const passingValueToRadarComments= (value) => {
@@ -69,7 +79,6 @@ const EditCommentModal = ({
 
   const handleSave = async() => {
         const arrayDataClone = [].concat([data])
-        console.log('arrayDataClone', data)
         // here find all the items that are not it the arr1
         const temp = getAllCommentsByRadarId.filter(obj1 => !arrayDataClone.some(obj2 => obj1.comment_id === obj2.comment_id))
         // then just concat it
@@ -98,6 +107,7 @@ const EditCommentModal = ({
         const radarIdEditing = data?.entity_uri.split('/')[3]
         const phenIdIdEditing = data?.entity_uri.split('/')[5]
         const sectionNameIdEditing = data?.entity_uri.split('/')[6]
+
         // gid, radarId, pid, section, payload
         await commentingApi.upsertComment(
           groupIdEditing, 
@@ -123,6 +133,16 @@ const EditCommentModal = ({
   const handleCloseModal = () => {
     handleClose()
     onClosemodal()
+    setRemainingChars(MAXCHARS - (+data.comment_text.length))
+  }
+
+  const [isConfirmModalOpened, setIsConfirmModalOpened] = React.useState(false)
+  const handleRemoveComment = () => {
+    setIsConfirmModalOpened(true)
+  }
+
+  const handleCloseConfirmModal = (value) => {
+    setIsConfirmModalOpened(value)
   }
 
   return (
@@ -141,20 +161,31 @@ const EditCommentModal = ({
             </div>
             <div className="modal-form-section" style={{paddingTop: 0}}>
               <div className="form-group">
-                {/* <label htmlFor="example1">Label</label> */}
-                <textarea 
+                <textarea
                   onChange={handleChangeInput} 
-                  maxlength="10000" type="text" className="form-control" id={comment_id} value={valueInput} placeholder={'Message *'}
+                  maxlength="1000" type="text" className="form-control" id='comment_textarea' value={valueInput} placeholder={'Message *'}
                   style={{fontSize:'1.3rem', color:'121212', width: '100%', height: 'fit-content', minHeight: '36rem'}}
                   />
-                  <label htmlFor="example1" style={{fontSize:'1.2rem', color:'#000'}}>1000 characters remaining</label>
+                  <label htmlFor="example1" style={{fontSize:'1.2rem', color:'#000', marginBottom: 0}}>{remainingChars} characters remaining</label>
               </div>
             </div>
     
           </div>
-          <div className="modal-form-section modal-form-actions">
-            <button type="button" class="btn btn-lg btn-plain-gray" onClick={handleCloseModal}>Cancel</button>
-            <button type="button" className="btn btn-lg btn-primary" onClick={handleSave}>Save</button>
+          <div className="modal-form-section modal-form-actions" style={{display: 'flex', justifyContent: 'space-between', paddingTop: 0}}>
+            <div>
+              <DeleteConfirmationModal 
+                handleCloseConfirmModal={handleCloseConfirmModal}
+                isConfirmModalOpened={isConfirmModalOpened}
+                data={data}
+                handleCloseModal={handleCloseModal}
+                radarId={radarId}
+                />
+              <button type="button" class="btn btn-lg btn-plain-gray" onClick={handleRemoveComment} style={{paddingLeft: 0}}>REMOVE COMMENT</button>
+            </div>
+            <div>
+              <button type="button" class="btn btn-lg btn-plain-gray" onClick={handleCloseModal}>Cancel</button>
+              <button type="button" className="btn btn-lg btn-primary" onClick={handleSave}>Save</button>
+            </div>
           </div>
         </Modal>
       )}

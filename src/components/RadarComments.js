@@ -123,11 +123,9 @@ const RadarComments = React.memo(function RadarComments ({dataSource, onClickHea
             }
           })
       })
-      console.log('phenonmena', phenonmena)
     return [phenonmena, group]
   }
   
-  console.log('12222', getUserId())
   const userId = getUserId()
 
   const {data: getDataFromConnectors} 
@@ -142,8 +140,7 @@ const RadarComments = React.memo(function RadarComments ({dataSource, onClickHea
         //   // serialize: true
         // }
     )
-    
-    console.log('getDataFromConnectors9999', getDataFromConnectors)
+
   const {data: getAllCommentsByRadarId} 
     = useSWR( (!!getDataFromConnectors?.length && getDataFromConnectors[1] && userId) 
       ? ['getAllCommentsByRadarId', JSON.stringify(getDataFromConnectors[1]) , radarId, userId] : null, 
@@ -162,16 +159,9 @@ const RadarComments = React.memo(function RadarComments ({dataSource, onClickHea
 
   const [isEditedCmt, setIsEditedCmt] = React.useState(false)
 
-  const { cache } = useSWRConfig()
-  console.log('caccche', cache)
-
-  console.log('getAllCommentsByRadarId', getAllCommentsByRadarId)
   const phenResults = React.useMemo( () => {
-    console.log('getAllCommentsByRadarId1111', getAllCommentsByRadarId)
-    console.log('getDataFromConnectors2222', getDataFromConnectors)
     // const arrayPhenonDataFromConnectors = 
     const getDataFromConnectorsClone = getDataFromConnectors && getDataFromConnectors[0] && Array.from(getDataFromConnectors[0])
-    console.log('33333', getDataFromConnectorsClone)
     if (getAllCommentsByRadarId?.length > 0) {
       // added new property if the phen has comment
       return !!getDataFromConnectorsClone?.length && !!getDataFromConnectorsClone.length > 0 && getDataFromConnectorsClone.map(phe => {
@@ -221,7 +211,6 @@ const RadarComments = React.memo(function RadarComments ({dataSource, onClickHea
   const [ commentIdIsEditing, setCommentIdIsEditing] = useState(null)
 
   const radarList = useMemo(() => {
-    console.log('phenResults22222', phenResults)
     if (!showComment) return phenResults.sort((a,b) => {
       return (a?.content['short_title'] ? a?.content['short_title'] : a.content.title)
           .localeCompare((b?.content['short_title'] ? b?.content['short_title'] : b?.content.title))
@@ -279,7 +268,6 @@ const RadarComments = React.memo(function RadarComments ({dataSource, onClickHea
             {
               data && data[1].length > 0 && data[1].map ( cmt_data => {
                 const {updated_timestamp: updatedAt, user_name, isAuthor, comment_text} = cmt_data
-                console.log('cmt_data', cmt_data)
                 const convert2HumunDate = (new Date(+updatedAt * 1000)).toString().split(' ')
                 return (
                   <>
@@ -296,6 +284,7 @@ const RadarComments = React.memo(function RadarComments ({dataSource, onClickHea
                     radarId={radarId}
                     userId={userId}
                     functionFromRadatComment={functionFromRadatComment}
+                    radarId={radarId}
                     // onRequestClose={onClosemodal}
                   />
                     <MessageInfo>

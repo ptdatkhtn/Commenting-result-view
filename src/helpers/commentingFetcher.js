@@ -28,6 +28,10 @@ export const commentingApi = {
         return await httpRequest(baseUrl, 'POST', `commenting/${gid}/radar/${radarId}/phenomenon/${pid}/${section}`, payload)
     },
 
+    //delete all votes from all phenomenon by radarId
+    deleteComment: async (gid, radarId, pid, section) => {
+        return await httpRequest(baseUrl, 'DELETE', `commenting/${gid}/radar/${radarId}/phenomenon/${pid}/${section}`)
+    },
     //get rating by phenomenon id 
     getRatingByPhenomenonId: async (gid, radarId, pid) => {
         return await httpRequest(baseUrl, 'GET', `rating/${gid}/radar/${radarId}/phenomenon/${pid}/`)
