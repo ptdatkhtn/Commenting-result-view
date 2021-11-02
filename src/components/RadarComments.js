@@ -289,7 +289,7 @@ const RadarComments = React.memo(function RadarComments ({dataSource, onClickHea
                   />
                     <MessageInfo>
                       <div style={{display: 'flex', alignItems: 'center'}}>
-                        <div style={{width: 'fit-content', minWidth: '5rem', maxWidth: '60%'}}> {user_name}</div>
+                        <div style={{fontSize: '1.3rem', width: 'fit-content', minWidth: '5rem', maxWidth: '60%'}}> {user_name}</div>
                         <MessageInfoDate>{convert2HumunDate[2] + "." + new Date(+updatedAt * 1000).toLocaleDateString().split('/')[1] + "." + convert2HumunDate[3] + " " + convert2HumunDate[4]}</MessageInfoDate>
                         <MessageVotingIcon><span className={`material-icons ${voted ? 'voted' : 'not-voted'}`}>thumb_up</span></MessageVotingIcon>
                       </div>
@@ -361,12 +361,12 @@ const RadarComments = React.memo(function RadarComments ({dataSource, onClickHea
       <RadarFilter>
         <div className="custom-control custom-checkbox" style={{display: 'inline-block', marginRight: '3rem'}}>
           <input type="checkbox" id="commented" name="vehicommentedcle1" value="commented" className="custom-control-input" onChange={handleChangeCommented} />
-          <label htmlFor="commented" className="custom-control-label" style={{fontWeight: 400, fontSize: '1.3rem', paddingTop: '0.2rem', paddingLeft: '1.2rem'}}>Show only commented</label>
+          <label htmlFor="commented" className="custom-control-label" style={{fontWeight: 400, fontSize: '1.31rem', paddingTop: '0.2rem', paddingLeft: '1.2rem'}}>Show only commented</label>
         </div>
         
         <div className="custom-control custom-checkbox" style={{display: 'inline-block'}}>
           <input type="checkbox" id="summary" name="summary" value="summary" onChange={handleChangeSummary} className="custom-control-input"  />
-          <label htmlFor="summary" className="custom-control-label" style={{fontWeight: 400, fontSize: '1.3rem', paddingTop: '0.2rem', paddingLeft: '1.2rem'}}>Show summaries</label>
+          <label htmlFor="summary" className="custom-control-label" style={{fontWeight: 400, fontSize: '1.31rem', paddingTop: '0.2rem', paddingLeft: '1.2rem'}}>Show summaries</label>
         </div>
        
       </RadarFilter>

@@ -172,19 +172,21 @@ const DeleteConfirmationModal = ({
       style={paddingModalStyles}
     >
       <div className="confirmation-modal-content pt-4 pb-4" style={{display: 'flex', justifyContent: 'center', flexDirection: 'column', alignItems:'center'}}>
-        <h3 className="confirmation-modal-title">
+        <h3 className="confirmation-modal-title" style={{fontSize:'2rem'}}>
           ARE YOU SURE YOU WANT TO REMOVE THIS COMMENT ?
         </h3>
         <div className="confirmation-modal-actions">
           <button
             onClick={handleCancelRemoveBtn}
             className="btn btn-lg btn-plain-gray"
+            style={{fontSize: '1.61rem', fontWeight: 540}}
           >
             {requestTranslation("cancel").toUpperCase()}
           </button>
           <button
             onClick={handleYesRemoveCmtBtn}
             className="btn btn-lg btn-primary"
+            style={{fontSize: '1.61rem', fontWeight: 540}}
             // onClick={deletePublicLink}
           >
             YES

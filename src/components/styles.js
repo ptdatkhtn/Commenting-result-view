@@ -164,8 +164,8 @@ export const MessageVotingIcon = styled.div`
 `
 export const MessageInfoDate = styled.span`
   color: #666;
-  font-size: 1.4rem;
-  font-weight: 450;
+  font-size: 1.3rem;
+  font-weight: 400;
   margin-left: .5rem;
 `
 export const MessageBody = styled.p`
