@@ -65,4 +65,20 @@ export const commentingApi = {
     getFlipAxisAfterSaved : async (gid, radarId) => {
         return await httpRequest(baseUrl, 'GET', `meta/rating/${gid}/radar/${radarId}/flipAxisAfterSaved/`)
     },
+
+    //ThumbUp 
+    //get radar phenomenon comment vote for current user
+    getLike: async (gid, rid, pid, cid) => {
+        return await httpRequest('GET', `voting/${gid}/radar/${rid}/phenomenon/${pid}/comment/${cid}/user`)
+    },
+
+    //get all radar phenomenon comment votes
+    getLikes: async (gid, rid, pid, cid) => {
+        return await httpRequest('GET', `voting/${gid}/radar/${rid}/phenomenon/${pid}/comment/${cid}`)
+    },
+
+    //vote on radar phenomenon comment as current user
+    addLike: async (gid, rid, pid, cid, payload) => {
+        return await httpRequest('POST', `voting/${gid}/radar/${rid}/phenomenon/${pid}/comment/${cid}`, payload)
+    },
 }

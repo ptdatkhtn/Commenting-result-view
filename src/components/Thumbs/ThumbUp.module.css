@@ -1,0 +1,18 @@
+.VotingLike_Wrapper {
+  width: 43px;
+  display: flex;
+  align-items: center;
+}
+.likeAmount {
+  margin-left: 4px;
+}
+.ThumbUp_Btn {
+  color: gray !important;
+}
+
+.ThumbUp_Btn:hover {
+  color: black !important;
+}
+.ThumbUp_Btn.active {
+  color: black !important;
+}

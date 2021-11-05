@@ -11,6 +11,7 @@ import * as tokens from "@sangre-fp/css-framework/tokens/fp-design-tokens"
 import edit2 from './edit2.svg'
 import {EditButton} from './styles'
 import EditCommentModal from './EditCommentModal'
+import ThumbUp from './Thumbs/ThumbUp'
 
 import {
   Container,
@@ -132,7 +133,7 @@ const RadarComments = React.memo(function RadarComments ({dataSource, onClickHea
     = useSWR( (radarId && userId) 
       ? [ 'getDataFromConnectors', radarId, userId ] : null, 
         (url, node_id) => multiFetchersRadars(node_id),
-        { refreshInterval: 4000 }
+        // { refreshInterval: 4000 }
         // {
         //   // compare: (a, b) => {
         //   //   return (a === b)
@@ -148,7 +149,7 @@ const RadarComments = React.memo(function RadarComments ({dataSource, onClickHea
       const res = await commentingApi.getAllComments(group, radarId)
       return res.data
     },
-    { refreshInterval: 4000 }
+    // { refreshInterval: 4000 }
     // {
     // //   compare: (a, b) => {
     // //     return (a === b)
@@ -269,6 +270,9 @@ const RadarComments = React.memo(function RadarComments ({dataSource, onClickHea
               data && data[1].length > 0 && data[1].map ( cmt_data => {
                 const {updated_timestamp: updatedAt, user_name, isAuthor, comment_text} = cmt_data
                 const convert2HumunDate = (new Date(+updatedAt * 1000)).toString().split(' ')
+                console.log('cmt_data', cmt_data )
+                const gid = cmt_data?.entity_uri.split('/')[1]
+                console.log('gid...', gid )
                 return (
                   <>
                   <EditCommentModal
@@ -284,14 +288,22 @@ const RadarComments = React.memo(function RadarComments ({dataSource, onClickHea
                     radarId={radarId}
                     userId={userId}
                     functionFromRadatComment={functionFromRadatComment}
-                    radarId={radarId}
                     // onRequestClose={onClosemodal}
                   />
                     <MessageInfo>
                       <div style={{display: 'flex', alignItems: 'center'}}>
                         <div style={{fontSize: '1.3rem', width: 'fit-content', minWidth: '5rem', maxWidth: '60%'}}> {user_name}</div>
                         <MessageInfoDate>{convert2HumunDate[2] + "." + new Date(+updatedAt * 1000).toLocaleDateString().split('/')[1] + "." + convert2HumunDate[3] + " " + convert2HumunDate[4]}</MessageInfoDate>
-                        <MessageVotingIcon><span className={`material-icons ${voted ? 'voted' : 'not-voted'}`}>thumb_up</span></MessageVotingIcon>
+                        <MessageVotingIcon>
+                          <ThumbUp 
+                            view={'thumb_up_results'}
+                            gid={gid}
+                            rid={radarId}
+                            pid={cmt_data.phenId}
+                            cid={cmt_data.comment_id}
+                            size={'24'}
+                            />
+                        </MessageVotingIcon>
                       </div>
                       {
                         isAuthor && (
