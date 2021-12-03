@@ -107,6 +107,7 @@ const EditCommentModal = ({
         const radarIdEditing = data?.entity_uri.split('/')[3]
         const phenIdIdEditing = data?.entity_uri.split('/')[5]
         const sectionNameIdEditing = data?.entity_uri.split('/')[6]
+        const cmtId = data?.entity_uri.split('/')[7]
 
         // gid, radarId, pid, section, payload
         await commentingApi.upsertComment(
@@ -114,6 +115,7 @@ const EditCommentModal = ({
           radarIdEditing,
           phenIdIdEditing,
           sectionNameIdEditing,
+          cmtId,
           {
             // "text": "Nana 456" + abc,
             "text": valueInput

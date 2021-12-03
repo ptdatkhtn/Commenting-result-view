@@ -24,13 +24,13 @@ export const commentingApi = {
     },
 
     //add hidden phenomennon of radar
-    upsertComment: async (gid, radarId, pid, section, payload) => {
-        return await httpRequest(baseUrl, 'POST', `commenting/${gid}/radar/${radarId}/phenomenon/${pid}/${section}`, payload)
+    upsertComment: async (gid, radarId, pid, section, cmtId, payload) => {
+        return await httpRequest(baseUrl, 'POST', `commenting/${gid}/radar/${radarId}/phenomenon/${pid}/${section}/${cmtId}`, payload)
     },
 
     //delete all votes from all phenomenon by radarId
-    deleteComment: async (gid, radarId, pid, section) => {
-        return await httpRequest(baseUrl, 'DELETE', `commenting/${gid}/radar/${radarId}/phenomenon/${pid}/${section}`)
+    deleteComment: async (gid, radarId, pid, section, cmtId) => {
+        return await httpRequest(baseUrl, 'DELETE', `commenting/${gid}/radar/${radarId}/phenomenon/${pid}/${section}/${cmtId}`)
     },
     //get rating by phenomenon id 
     getRatingByPhenomenonId: async (gid, radarId, pid) => {

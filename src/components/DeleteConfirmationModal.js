@@ -142,6 +142,7 @@ const DeleteConfirmationModal = ({
     const radarIdEditing = data?.entity_uri.split('/')[3]
     const phenIdIdEditing = data?.entity_uri.split('/')[5]
     const sectionNameIdEditing = data?.entity_uri.split('/')[6]
+    const cmtId = data?.entity_uri.split('/')[7]
 
     mutate(['getAllCommentsByRadarId', JSON.stringify(getDataFromConnectors[1]) , radarIdEditing, userId], 
       getAllCommentsByRadarId, false)
@@ -150,7 +151,9 @@ const DeleteConfirmationModal = ({
       groupIdEditing,
       radarIdEditing,
       phenIdIdEditing,
-      sectionNameIdEditing)
+      sectionNameIdEditing,
+      cmtId
+    )
 
     mutate(['getAllCommentsByRadarId', JSON.stringify(getDataFromConnectors[1]) , radarIdEditing, userId])
 
