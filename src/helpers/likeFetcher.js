@@ -32,4 +32,10 @@ export const likeApi = {
     addLike: async (gid, rid, pid, cid, payload) => {
         return await httpRequest(baseUrl, 'POST', `voting/${gid}/radar/${rid}/phenomenon/${pid}/comment/${cid}`, payload)
     },
+
+    //get radar phenomenon comment vote by PhenId
+    getLikesByPhenId: async (gid, rid, pid) => {
+        return await httpRequest(baseUrl, 'GET', `voting/${gid}/radar/${rid}/phenomenon/${pid}/comment}`)
+    },
+
 }

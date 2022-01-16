@@ -5,7 +5,7 @@ import radarDataApi from '@sangre-fp/connectors/radar-data-api';
 import {getPhenomena} from '../helpers/phenomenonFetcher'
 import {commentingApi} from '../helpers/commentingFetcher'
 import { getUserId } from '@sangre-fp/connectors/session'
-
+import {likeApi} from '../helpers/likeFetcher'
 import styled from "styled-components/macro";
 import * as tokens from "@sangre-fp/css-framework/tokens/fp-design-tokens"
 import edit2 from './edit2.svg'
@@ -251,6 +251,76 @@ const RadarComments = React.memo(function RadarComments ({dataSource, onClickHea
         updated_timestamp: updatedAt, voted } 
         = data[1]
       
+        // improve with fetching the votes of all comments of the phen by only 1 api,
+        // instead of using such apis in Thumb component to fetch current users' vote comments and 
+        // votes comments of other users ( all vote comments) 
+        // data tra ve dang nay:
+        const a = {
+          "myVotes": [
+              {
+                  "entityUri": "/290/radar/195080/phenomenon/c4ad9b29-6d99-465d-b68e-315c90015e66/comment/84560",
+                  "up": true
+              },
+              {
+                  "entityUri": "/290/radar/195080/phenomenon/c4ad9b29-6d99-465d-b68e-315c90015e66/comment/84561",
+                  "up": true
+              },
+              {
+                  "entityUri": "/290/radar/195080/phenomenon/c4ad9b29-6d99-465d-b68e-315c90015e66/comment/84562",
+                  "up": true
+              },
+              {
+                  "entityUri": "/290/radar/195080/phenomenon/c4ad9b29-6d99-465d-b68e-315c90015e66/comment/84563",
+                  "up": true
+              },
+              {
+                  "entityUri": "/290/radar/195080/phenomenon/c4ad9b29-6d99-465d-b68e-315c90015e66/comment/84564",
+                  "up": true
+              }
+            ],
+            "allVotes": [
+                {
+                    "/290/radar/195080/phenomenon/c4ad9b29-6d99-465d-b68e-315c90015e66/comment/84560": {
+                        "plus_votes": 1,
+                        "minus_votes": 0,
+                        "sum": 1
+                    }
+                },
+                {
+                    "/290/radar/195080/phenomenon/c4ad9b29-6d99-465d-b68e-315c90015e66/comment/84562": {
+                        "plus_votes": 1,
+                        "minus_votes": 0,
+                        "sum": 1
+                    }
+                },
+                {
+                    "/290/radar/195080/phenomenon/c4ad9b29-6d99-465d-b68e-315c90015e66/comment/84563": {
+                        "plus_votes": 1,
+                        "minus_votes": 0,
+                        "sum": 1
+                    }
+                },
+                {
+                    "/290/radar/195080/phenomenon/c4ad9b29-6d99-465d-b68e-315c90015e66/comment/84561": {
+                        "plus_votes": 1,
+                        "minus_votes": 0,
+                        "sum": 1
+                    }
+                },
+                {
+                    "/290/radar/195080/phenomenon/c4ad9b29-6d99-465d-b68e-315c90015e66/comment/84564": {
+                        "plus_votes": 1,
+                        "minus_votes": 0,
+                        "sum": 1
+                    }
+                }
+            ]
+        }
+      // const phenId = !!data?.length && data[0]?.phenId
+      // const groupId = !!data?.length && data[0]?.entity_uri.split('/')[1]
+      
+      // const getLikesByPhenId = await likeApi.getLikesByPhenId(groupId, radarId, phenId)
+      // console.log('getLikesByPhenId', getLikesByPhenId)
       const onClosemodal = () => {
         setIsOpenEditCommentingModal(false)
       }
@@ -302,6 +372,7 @@ const RadarComments = React.memo(function RadarComments ({dataSource, onClickHea
                             pid={cmt_data.phenId}
                             cid={cmt_data.comment_id}
                             size={'24'}
+                            isLike={false}
                             />
                         </MessageVotingIcon>
                       </div>
