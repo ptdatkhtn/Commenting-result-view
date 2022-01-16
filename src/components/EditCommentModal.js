@@ -118,7 +118,8 @@ const EditCommentModal = ({
           cmtId,
           {
             // "text": "Nana 456" + abc,
-            "text": valueInput
+            "text": valueInput,
+            "name": data?.comment_name 
           }
         )
 
