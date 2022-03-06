@@ -14,11 +14,11 @@ const GlobalStyle = createGlobalStyle`
   .ReactModal__Content__Wrapper {
     position: relative;
     background-color: rgb(255, 255, 255);
-    font-size: 1.6rem;
+    font-size: 16px;
     // width: 70%;
   }
   .form-control{
-    font-size: 1.6rem;
+    font-size: 16px;
   }
   .btn-close-modal {
     display: block;
@@ -160,16 +160,16 @@ const EditCommentModal = ({
         >
            <div className="modal-form-sections">
             <div className="modal-form-section modal-form-header">
-              <h3 style={{fontSize:'2.1rem', color:'121212'}}>Edit comment</h3>
+              <h3 style={{fontSize:'21px', color:'121212'}}>Edit comment</h3>
             </div>
             <div className="modal-form-section" style={{paddingTop: 0}}>
               <div className="form-group">
                 <textarea
                   onChange={handleChangeInput} 
                   maxlength="1000" type="text" className="form-control" id='comment_textarea' value={valueInput} placeholder={'Message *'}
-                  style={{fontSize:'1.41rem', color:'121212', width: '100%', height: 'fit-content', minHeight: '36rem'}}
+                  style={{fontSize:'14.1px', color:'121212', width: '100%', height: 'fit-content', minHeight: '360px'}}
                   />
-                  <label htmlFor="example1" style={{fontSize:'1.25rem', color:'#000', marginBottom: 0}}>{remainingChars} characters remaining</label>
+                  <label htmlFor="example1" style={{fontSize:'12.5px', color:'#000', marginBottom: 0}}>{remainingChars} characters remaining</label>
               </div>
             </div>
     
@@ -183,11 +183,11 @@ const EditCommentModal = ({
                 handleCloseModal={handleCloseModal}
                 radarId={radarId}
                 />
-              <button type="button" class="btn btn-lg btn-plain-gray" onClick={handleRemoveComment} style={{paddingLeft: 0, fontSize: '1.61rem', fontWeight: 540}}>REMOVE COMMENT</button>
+              <button type="button" class="btn btn-lg btn-plain-gray" onClick={handleRemoveComment} style={{paddingLeft: 0, fontSize: '16px', fontWeight: 540}}>REMOVE COMMENT</button>
             </div>
             <div>
-              <button type="button" class="btn btn-lg btn-plain-gray" onClick={handleCloseModal} style={{fontSize: '1.61rem', fontWeight: 540}}>Cancel</button>
-              <button type="button" className="btn btn-lg btn-primary" onClick={handleSave} style={{fontSize: '1.61rem', fontWeight: 540}}>Save</button>
+              <button type="button" class="btn btn-lg btn-plain-gray" onClick={handleCloseModal} style={{fontSize: '16px', fontWeight: 540}}>Cancel</button>
+              <button type="button" className="btn btn-lg btn-primary" onClick={handleSave} style={{fontSize: '16px', fontWeight: 540}}>Save</button>
             </div>
           </div>
         </Modal>

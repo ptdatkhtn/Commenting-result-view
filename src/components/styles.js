@@ -2,33 +2,33 @@ import styled from 'styled-components'
 import * as tokens from "@sangre-fp/css-framework/tokens/fp-design-tokens"
 
 export const Container = styled.div`
-  margin-bottom: 2rem;
+  margin-bottom: 20px;
   font-family: ${tokens.FontFamilySansSerif}
 `
 
 export const PanelHeader = styled.div`
   display: flex;
   justify-content: space-between;
-  margin-bottom: 1.6rem;
+  margin-bottom: 16px;
 `
 
 export const CommentLabel = styled.h2`
-  font-size: 2.2rem;
-  margin: 0 4rem 2.4rem 0;
+  font-size: 22px;
+  margin: 0 40px 24px 0;
 `
 
 export const RadarFilter = styled.div`
-  margin-bottom: 2rem;
+  margin-bottom: 20px;
 
 `
 
 export const PhenomenonListHeader = styled.div`
-  font-size: 1.3rem;
-  margin-top: 0.5rem;
+  font-size: 13px;
+  margin-top: 5px;
   background-color: #dbdbdb;
   display: flex;
   font-style: italic;
-  padding: 1rem 0 1.5rem 0;
+  padding: 10px 0 15px 0;
 `
 
 export const PhenomenonList = styled.ul`
@@ -43,12 +43,12 @@ export const PhenomenonItem = styled.li`
 
 export const PhenomenonMeta = styled.div`
   display: flex;
-  padding: .5rem 0 1rem;
+  padding: 5px 0 10px;
   font-weight: 400;
   .icon-issue {
-    margin: 0 .5rem 0 0;
-    width: 1.2rem;
-    height: 1.2rem;
+    margin: 0 5px 0 0;
+    width: 12px;
+    height: 12px;
     display: flex;
   }
   
@@ -62,35 +62,35 @@ export const PhenomenonMeta = styled.div`
     background-size: cover;
     background-position: center center;
     background-repeat: no-repeat;
-    width: 1.2rem;
-    height: 1.2rem;
+    width: 12px;
+    height: 12px;
   }
 `
 
 export const MetaSector = styled.div`
   width: 45%;
-  padding-left: 1.5rem;
-  font-size: 1.3rem;
+  padding-left: 15px;
+  font-size: 12px;
 `
 
 export const MetaState = styled.div`
   display: flex;
   align-items: center;
   width: 20%;
-  padding-left: 1.5rem;
-  font-size: 1.3rem;
+  padding-left: 15px;
+  font-size: 12px;
 `
 export const ItemHeaderTitle = styled.h2`
-  padding: 1.5rem 1.5rem 1rem;
+  padding: 15px 15px 10px;
   margin: 0;
-  font-size: 2rem;
+  font-size: 20px;
 `
 
 export const PhenomenonIngres = styled.div`
-  padding: 0 1.5rem 1rem;
-  font-size: 1.3rem;
+  padding: 0 15px 10px;
+  font-size: 13px;
   > p {
-    margin-bottom: 1rem;
+    margin-bottom: 10px;
   }
 `
 
@@ -115,9 +115,9 @@ export const MessageTopicContent = styled.div`
 `
 export const MessageTopicHeader = styled.p`
   background-color: transparent;
-  font-size: 1.6rem;
-  padding: 1.5rem 0 1rem;
-  line-height: 1.6rem;
+  font-size: 16px;
+  padding: 15px 0 10px;
+  line-height: 16px;
   margin: 0;
   font-weight: 700;
 `
@@ -126,7 +126,7 @@ export const MessageContainer = styled.div`
   padding: 0;
   margin: 0;
   border: none;
-  padding-left: 2rem;
+  padding-left: 30px;
 `
 export const MessageInfo = styled.div`
   display: flex;
@@ -134,12 +134,12 @@ export const MessageInfo = styled.div`
   height: 34px;
   align-items: center;
   font-weight: 700;
-  font-size: 1.3rem;
+  font-size: 13px;
 `
 export const MessageVotingIcon = styled.div`
-  margin-left: 1rem;
+  margin-left: 10px;
   border-left: 1px solid #000;
-  padding-left: 1rem;
+  padding-left: 10px;
   height: 20px;
   display: inline-block;
   cursor: pointer;
@@ -154,7 +154,7 @@ export const MessageVotingIcon = styled.div`
     }
     .material-icons {
       pointer-events: all;
-      font-size: 2rem;
+      font-size: 20px;
     }
     :hover span {
       color: black;
@@ -164,15 +164,15 @@ export const MessageVotingIcon = styled.div`
 `
 export const MessageInfoDate = styled.span`
   color: #666;
-  font-size: 1.3rem;
+  font-size: 13px;
   font-weight: 400;
-  margin-left: .5rem;
+  margin-left: 5px;
 `
 export const MessageBody = styled.p`
   color: #333;
-  // padding-bottom: 1rem;
-  margin: 0.1rem 0 1rem 0;
-  font-size: 1.3rem;
+  // padding-bottom: 10px;
+  margin: 1px 0 10px 0;
+  font-size: 13px;
   max-width: 70%;
 `
 

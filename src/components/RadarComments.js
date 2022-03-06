@@ -362,7 +362,7 @@ const RadarComments = React.memo(function RadarComments ({dataSource, onClickHea
                   />
                     <MessageInfo>
                       <div style={{display: 'flex', alignItems: 'center'}}>
-                        <div style={{fontSize: '1.3rem', width: 'fit-content', minWidth: '5rem', maxWidth: '60%'}}> {user_name}</div>
+                        <div style={{fontSize: '13px', width: 'fit-content', minWidth: '50px', maxWidth: '60%'}}> {user_name}</div>
                         <MessageInfoDate>{convert2HumunDate[2] + "." + new Date(+updatedAt * 1000).toLocaleDateString().split('/')[1] + "." + convert2HumunDate[3] + " " + convert2HumunDate[4]}</MessageInfoDate>
                         <MessageVotingIcon>
                           <ThumbUp 
@@ -378,7 +378,7 @@ const RadarComments = React.memo(function RadarComments ({dataSource, onClickHea
                       </div>
                       {
                         isAuthor && (
-                          <div style={{marginLeft: 'auto', marginRight: '6rem'}} onClick={() => onEditing(cmt_data)}>
+                          <div style={{marginLeft: 'auto', marginRight: '60px'}} onClick={() => onEditing(cmt_data)}>
                             <EditButton src={edit2}/>
                           </div>
                         )
@@ -406,14 +406,14 @@ const RadarComments = React.memo(function RadarComments ({dataSource, onClickHea
           
           <PhenomenonMeta className='phenom-meta'>
             {item['sector_title'] && (
-              <MetaSector>{item['sector_title']}</MetaSector>
+              <MetaSector style={{fontSize: '13px'}}>{item['sector_title']}</MetaSector>
             )}
-            <MetaState>
+            <MetaState style={{fontSize: '13px'}}>
               <RatingItemHeader className= {`left icon-issue ${item.iconClassName}`}
               // data-href={getPhenomenonUrl(radar?.id, phenomenon)}
                 backgroundColor={item.backgroundColor}>
               </RatingItemHeader>
-              <TypePhen>
+              <TypePhen style={{marginBottom: '6px'}}>
                 {item['content-type-title']}
               </TypePhen>
             </MetaState>
@@ -442,14 +442,14 @@ const RadarComments = React.memo(function RadarComments ({dataSource, onClickHea
     <Container>
 
       <RadarFilter>
-        <div className="custom-control custom-checkbox" style={{display: 'inline-block', marginRight: '3rem'}}>
+        <div className="custom-control custom-checkbox" style={{display: 'inline-block', marginRight: '30px'}}>
           <input type="checkbox" id="commented" name="vehicommentedcle1" value="commented" className="custom-control-input" onChange={handleChangeCommented} />
-          <label htmlFor="commented" className="custom-control-label" style={{fontWeight: 400, fontSize: '1.31rem', paddingTop: '0.2rem', paddingLeft: '1.2rem'}}>Show only commented</label>
+          <label htmlFor="commented" className="custom-control-label" style={{fontWeight: 400, fontSize: '13px', paddingTop: '2px', paddingLeft: '6px'}}>Show only commented</label>
         </div>
         
         <div className="custom-control custom-checkbox" style={{display: 'inline-block'}}>
           <input type="checkbox" id="summary" name="summary" value="summary" onChange={handleChangeSummary} className="custom-control-input"  />
-          <label htmlFor="summary" className="custom-control-label" style={{fontWeight: 400, fontSize: '1.31rem', paddingTop: '0.2rem', paddingLeft: '1.2rem'}}>Show summaries</label>
+          <label htmlFor="summary" className="custom-control-label" style={{fontWeight: 400, fontSize: '13px', paddingTop: '2px', paddingLeft: '6px'}}>Show summaries</label>
         </div>
        
       </RadarFilter>
@@ -468,8 +468,8 @@ export default RadarComments
 
 export const RatingItemHeader = styled.div`
     font-size: ${tokens.FontSize14};
-    min-height: 2.5rem;
-    padding-left: 2.6rem !important;
+    min-height: 25px;
+    padding-left: 26px !important;
     width: 99%;
     word-wrap: break-word;
     // width: 410px;
@@ -480,7 +480,7 @@ export const RatingItemHeader = styled.div`
     &:before {
       position: absolute;
       left: 0;
-      top: 0.3rem;
+      top: 3px;
       background:${props => props.backgroundColor} !important;
     }
 `

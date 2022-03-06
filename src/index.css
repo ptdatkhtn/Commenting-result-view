@@ -1,5 +1,5 @@
 html {
-    font-size: 62.5%;
+    /* font-size: 62.5%; */
   }
   
   body {
@@ -16,18 +16,18 @@ html {
   
   #root {
     background-color: #e8ebeb;
-    padding: 1.5rem;
+    padding: 15px;
   }
   
   .custom-control {
-    padding-left: 1.786rem;
+    padding-left: 26.86px;
   }
   .custom-control-label:before {
-    width: 2rem;
-    height: 2rem;
+    width: 20px;
+    height: 20px;
   }
 
   .custom-control-label:after {
-    width: 2rem;
-    height: 2rem;
+    width: 20px;
+    height: 20px;
   }
