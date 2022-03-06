@@ -19,18 +19,18 @@ async function httpRequest(baseUrl, method, path, payload = null) {
 export const commentingApi = {
     //get all votes from all phenomenon by radarId
     getAllComments: async (gid, radarId) => {
-        return await httpRequest(baseUrl, 'GET', `commenting/${gid}/radar/${radarId}`)
+        return await httpRequest(baseUrl, 'GET', `${gid}/radar/${radarId}`)
 
     },
 
     //add hidden phenomennon of radar
     upsertComment: async (gid, radarId, pid, section, cmtId, payload) => {
-        return await httpRequest(baseUrl, 'POST', `commenting/${gid}/radar/${radarId}/phenomenon/${pid}/${section}/${cmtId}`, payload)
+        return await httpRequest(baseUrl, 'POST', `${gid}/radar/${radarId}/phenomenon/${pid}/${section}/${cmtId}`, payload)
     },
 
     //delete all votes from all phenomenon by radarId
     deleteComment: async (gid, radarId, pid, section, cmtId) => {
-        return await httpRequest(baseUrl, 'DELETE', `commenting/${gid}/radar/${radarId}/phenomenon/${pid}/${section}/${cmtId}`)
+        return await httpRequest(baseUrl, 'DELETE', `${gid}/radar/${radarId}/phenomenon/${pid}/${section}/${cmtId}`)
     },
     //get rating by phenomenon id 
     getRatingByPhenomenonId: async (gid, radarId, pid) => {
