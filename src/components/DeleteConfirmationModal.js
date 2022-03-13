@@ -14,6 +14,7 @@ const DeleteConfirmationModal = ({
   data,
   handleCloseModal
 }) => {
+  console.log('dataaa890', data)
   const multiFetchersRadars = async (radarId) => {
     const [getRadar_radarDataApi, getRadar_drupal_api] = await Promise.all([
       radarDataApi.getRadar(radarId),
@@ -37,11 +38,11 @@ const DeleteConfirmationModal = ({
           /* eslint-disable */
           getPhenomenaTypes_drupal_api?.map((type) => {
               if (String(phenonmenon?.content?.type) === String(type?.id)) {
-                phenonmenon['content-type-alias'] = type.alias
-                phenonmenon['content-type-title'] = type.title
+                phenonmenon['content-type-alias'] = type?.alias
+                phenonmenon['content-type-title'] = type?.title
                 /* eslint-disable */
                 if (String(phenonmenon?.content?.type).includes('fp:doc-types')) {
-                    const nameCustomType = String(phenonmenon?.content?.type).split('/')[3]
+                    const nameCustomType = String(phenonmenon?.content?.type)?.split('/')[3]
                     phenonmenon['color'] = String(type?.style?.color)
                 } else {
                     phenonmenon['color'] = 'none'
@@ -103,7 +104,7 @@ const DeleteConfirmationModal = ({
   
   const userId = getUserId()
 
-  const radarIdEditing = data?.entity_uri.split('/')[3]
+  const radarIdEditing = data?.entity_uri?.split('/')[4]
   const {data: getDataFromConnectors} 
     = useSWR( (radarIdEditing && userId) 
       ? [ 'getDataFromConnectors', radarIdEditing, userId ] : null, 
@@ -138,11 +139,12 @@ const DeleteConfirmationModal = ({
   const handleYesRemoveCmtBtn = async () => {
     // setIsOpenModal(() => false)
     // gid, radarId, pid, section
-    const groupIdEditing = data?.entity_uri.split('/')[1]
-    const radarIdEditing = data?.entity_uri.split('/')[3]
-    const phenIdIdEditing = data?.entity_uri.split('/')[5]
-    const sectionNameIdEditing = data?.entity_uri.split('/')[6]
-    const cmtId = data?.entity_uri.split('/')[7]
+    console.log('222223456', data)
+    const groupIdEditing = data?.entity_uri?.split('/')[2]
+    const radarIdEditing = data?.entity_uri?.split('/')[4]
+    const phenIdIdEditing = data?.entity_uri?.split('/')[6]
+    const sectionNameIdEditing = data?.entity_uri?.split('/')[7]
+    const cmtId = data?.entity_uri?.split('/')[8]
 
     mutate(['getAllCommentsByRadarId', JSON.stringify(getDataFromConnectors[1]) , radarIdEditing, userId], 
       getAllCommentsByRadarId, false)

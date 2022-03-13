@@ -67,7 +67,7 @@ const RadarComments = React.memo(function RadarComments ({dataSource, onClickHea
                 phenonmenon['content-type-title'] = type.title
                 /* eslint-disable */
                 if (String(phenonmenon?.content?.type).includes('fp:doc-types')) {
-                    const nameCustomType = String(phenonmenon?.content?.type).split('/')[3]
+                    const nameCustomType = String(phenonmenon?.content?.type)?.split('/')[3]
                     phenonmenon['color'] = String(type?.style?.color)
                 } else {
                     phenonmenon['color'] = 'none'
@@ -158,6 +158,7 @@ const RadarComments = React.memo(function RadarComments ({dataSource, onClickHea
     // }
   )
 
+  console.log('getAllCommentsByRadarId', getAllCommentsByRadarId)
   const [isEditedCmt, setIsEditedCmt] = React.useState(false)
 
   const phenResults = React.useMemo( () => {
@@ -171,10 +172,14 @@ const RadarComments = React.memo(function RadarComments ({dataSource, onClickHea
         if ( isEditedCmt ) {
           phe.cmt = null
         }
-        getAllCommentsByRadarId?.length > 0 && getAllCommentsByRadarId.map(cmt => {
-          cmt['phenId'] = cmt['entity_uri'].split('/')[5]
-          if (String(phe.id) === String(cmt['phenId'])) {
-            cmt['section'] = cmt['entity_uri'].split('/')[6]
+  console.log('getAllCommentsByRadarId22', getAllCommentsByRadarId)
+
+        !!getAllCommentsByRadarId?.length && getAllCommentsByRadarId?.map(cmt => {
+          cmt['phenId'] = cmt['entity_uri']?.split('/')[6]
+console.log(String(phe?.id) === String(cmt['phenId']), String(phe?.id), String(cmt['phenId']), cmt)
+          if (String(phe?.id) === String(cmt['phenId'])) {
+            console.log('aaa')
+            cmt['section'] = cmt['entity_uri']?.split('/')[7]
             // check if the cmt is this current user or not
             if (getUserId().toString() === cmt.uid.toString()) {
               cmt['isAuthor'] = true
@@ -212,14 +217,14 @@ const RadarComments = React.memo(function RadarComments ({dataSource, onClickHea
   const [ commentIdIsEditing, setCommentIdIsEditing] = useState(null)
 
   const radarList = useMemo(() => {
-    if (!showComment) return phenResults.sort((a,b) => {
-      return (a?.content['short_title'] ? a?.content['short_title'] : a.content.title)
+    if (!showComment) return phenResults?.sort((a,b) => {
+      return (a?.content['short_title'] ? a?.content['short_title'] : a?.content?.title)
           .localeCompare((b?.content['short_title'] ? b?.content['short_title'] : b?.content.title))
     })
 
-    return !!phenResults?.length && phenResults.filter(item => item?.cmt)
+    return !!phenResults?.length && phenResults?.filter(item => item?.cmt)
       .sort((a,b) => {
-        return (a?.content['short_title'] ? a?.content['short_title'] : a.content.title)
+        return (a?.content['short_title'] ? a?.content['short_title'] : a?.content?.title)
           .localeCompare((b?.content['short_title'] ? b?.content['short_title'] : b?.content.title))
       })
   }, [showComment, phenResults])
@@ -243,10 +248,11 @@ const RadarComments = React.memo(function RadarComments ({dataSource, onClickHea
   }
 
   const renderPhenomenonItem = (item) => {
-    
+    console.log('itemaaa', item?.cmt)
     const { id } = item
 
     const renderSubComments = (data, index) => {
+      console.log('dataaaa', data)
       const { user_name: author, comment, 
         updated_timestamp: updatedAt, voted } 
         = data[1]
@@ -339,9 +345,9 @@ const RadarComments = React.memo(function RadarComments ({dataSource, onClickHea
             {
               data && data[1].length > 0 && data[1].map ( cmt_data => {
                 const {updated_timestamp: updatedAt, user_name, isAuthor, comment_text} = cmt_data
-                const convert2HumunDate = (new Date(+updatedAt * 1000)).toString().split(' ')
+                const convert2HumunDate = (new Date(+updatedAt * 1000)).toString()?.split(' ')
                 console.log('cmt_data', cmt_data )
-                const gid = cmt_data?.entity_uri.split('/')[1]
+                const gid = cmt_data?.entity_uri?.split('/')[2]
                 console.log('gid...', gid )
                 return (
                   <>
@@ -363,7 +369,7 @@ const RadarComments = React.memo(function RadarComments ({dataSource, onClickHea
                     <MessageInfo>
                       <div style={{display: 'flex', alignItems: 'center'}}>
                         <div style={{fontSize: '13px', width: 'fit-content', minWidth: '50px', maxWidth: '60%'}}> {user_name}</div>
-                        <MessageInfoDate>{convert2HumunDate[2] + "." + new Date(+updatedAt * 1000).toLocaleDateString().split('/')[1] + "." + convert2HumunDate[3] + " " + convert2HumunDate[4]}</MessageInfoDate>
+                        <MessageInfoDate>{convert2HumunDate[2] + "." + new Date(+updatedAt * 1000).toLocaleDateString()?.split('/')[1] + "." + convert2HumunDate[3] + " " + convert2HumunDate[4]}</MessageInfoDate>
                         <MessageVotingIcon>
                           <ThumbUp 
                             view={'thumb_up_results'}
@@ -429,7 +435,7 @@ const RadarComments = React.memo(function RadarComments ({dataSource, onClickHea
             <MessageTopicContent>
               {
                 Object.entries(item?.cmt && item.cmt).length > 0 && Object.entries(item?.cmt && item.cmt)
-                  .map(renderSubComments)
+                  ?.map(renderSubComments)
               }
             </MessageTopicContent>
           </ItemContent>

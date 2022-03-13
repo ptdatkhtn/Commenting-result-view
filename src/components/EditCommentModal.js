@@ -103,11 +103,11 @@ const EditCommentModal = ({
 
         mutate(['getAllCommentsByRadarId', JSON.stringify(getDataFromConnectors[1]) , radarId, userId], 
           arr1, false)
-        const groupIdEditing = data?.entity_uri.split('/')[1]
-        const radarIdEditing = data?.entity_uri.split('/')[3]
-        const phenIdIdEditing = data?.entity_uri.split('/')[5]
-        const sectionNameIdEditing = data?.entity_uri.split('/')[6]
-        const cmtId = data?.entity_uri.split('/')[7]
+        const groupIdEditing = data?.entity_uri?.split('/')[2]
+        const radarIdEditing = data?.entity_uri?.split('/')[4]
+        const phenIdIdEditing = data?.entity_uri?.split('/')[6]
+        const sectionNameIdEditing = data?.entity_uri?.split('/')[7]
+        const cmtId = data?.entity_uri?.split('/')[8]
 
         // gid, radarId, pid, section, payload
         await commentingApi.upsertComment(
