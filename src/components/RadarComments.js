@@ -9,7 +9,13 @@ import {likeApi} from '../helpers/likeFetcher'
 import styled from "styled-components/macro";
 import * as tokens from "@sangre-fp/css-framework/tokens/fp-design-tokens"
 import edit2 from './edit2.svg'
-import {EditButton} from './styles'
+import {EditButton, RateTabWrapper,
+  RateTabFooter,
+  ClearRatingsBtn,
+  InformationIcon,
+  HeaderWrapper,
+  HoverBox,
+  ShareBtn} from './styles'
 import EditCommentModal from './EditCommentModal'
 import ThumbUp from './Thumbs/ThumbUp'
 
@@ -142,6 +148,7 @@ const RadarComments = React.memo(function RadarComments ({dataSource, onClickHea
         // }
     )
 
+    console.log('getDataFromConnectors', getDataFromConnectors)
   const {data: getAllCommentsByRadarId} 
     = useSWR( (!!getDataFromConnectors?.length && getDataFromConnectors[1] && userId) 
       ? ['getAllCommentsByRadarId', JSON.stringify(getDataFromConnectors[1]) , radarId, userId] : null, 
@@ -446,6 +453,21 @@ console.log(String(phe?.id) === String(cmt['phenId']), String(phe?.id), String(c
 
   return (
     <Container>
+
+      <HeaderWrapper>
+        <div style={{display: 'flex'}}>
+          {
+            !!getDataFromConnectors && (
+              <h2>{(getDataFromConnectors[0][0]?.language === "en" ? 'Comments' : 'Kommentit')}</h2>
+            )
+          }
+        </div>
+        {
+          !!getDataFromConnectors && (<ShareBtn className="btn btn-outline-secondary btn-sm" onClick={() => window.print()}><span className="af-custom-share" />{(getDataFromConnectors[0][0]?.language === "en" ? 'SHARE' : 'JAA')}</ShareBtn>
+          )
+        }
+      </HeaderWrapper>
+
 
       <RadarFilter>
         <div className="custom-control custom-checkbox" style={{display: 'inline-block', marginRight: '30px'}}>
