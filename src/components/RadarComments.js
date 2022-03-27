@@ -472,18 +472,22 @@ console.log(String(phe?.id) === String(cmt['phenId']), String(phe?.id), String(c
       <RadarFilter>
         <div className="custom-control custom-checkbox" style={{display: 'inline-block', marginRight: '30px'}}>
           <input type="checkbox" id="commented" name="vehicommentedcle1" value="commented" className="custom-control-input" onChange={handleChangeCommented} />
-          <label htmlFor="commented" className="custom-control-label" style={{fontWeight: 400, fontSize: '13px', paddingTop: '2px', paddingLeft: '6px'}}>Show only commented</label>
+          <label htmlFor="commented" className="custom-control-label" style={{fontWeight: 400, fontSize: '13px', paddingTop: '2px', paddingLeft: '6px'}}>
+            {(!!getDataFromConnectors && getDataFromConnectors[0][0]?.language === "en" ? 'Show only commented' : 'Näytä vain kommentoidut')}
+          </label>
         </div>
         
         <div className="custom-control custom-checkbox" style={{display: 'inline-block'}}>
           <input type="checkbox" id="summary" name="summary" value="summary" onChange={handleChangeSummary} className="custom-control-input"  />
-          <label htmlFor="summary" className="custom-control-label" style={{fontWeight: 400, fontSize: '13px', paddingTop: '2px', paddingLeft: '6px'}}>Show summaries</label>
+          <label htmlFor="summary" className="custom-control-label" style={{fontWeight: 400, fontSize: '13px', paddingTop: '2px', paddingLeft: '6px'}}>Show summaries
+          {(!!getDataFromConnectors && getDataFromConnectors[0][0]?.language === "en" ? 'Show summaries' : 'Näytä vain kommentoidut')}
+          </label>
         </div>
        
       </RadarFilter>
       <PhenomenonListHeader>
-        <MetaSector>Phenomenon</MetaSector>
-        <MetaState>Type</MetaState>
+        <MetaSector>{(!!getDataFromConnectors && getDataFromConnectors[0][0]?.language === "en" ? 'Phenomenon' : 'Ilmiö')}</MetaSector>
+        <MetaState>{(!!getDataFromConnectors && getDataFromConnectors[0][0]?.language === "en" ? 'Type' : 'Tyyppi')}</MetaState>
       </PhenomenonListHeader>
       <PhenomenonList>
         {radarList?.length > 0 && radarList.map(renderPhenomenonItem)}
